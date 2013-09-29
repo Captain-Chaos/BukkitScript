@@ -1,0 +1,32 @@
+name: BukkitScript
+version: 0.1.4-1.6.2
+main: org.pepsoft.bukkit.bukkitscript.BukkitScriptPlugin
+commands:
+  setname:
+    description: Assign a name to the block you are looking at, or specify the coordinates of
+    usage: /setname [[<worldname>] <x>,<y>,<z>] <name>
+  getname:
+    description: Display the name of the block you are looking at, or specify the coordinates of
+    usage: /getname [[<worldname>] <x>,<y>,<z>]
+  clearname:
+    description: Remove the name from the named block you are looking at, or specify the coordinates or name of
+    usage: /clearname [[<worldname>] (<x>,<y>,<z> | <name>)]
+  listnames:
+    description: List all named blocks
+    usage: /listnames [<worldname>]
+  bindscript:
+    description: Bind a script to an event
+    usage: /bindscript <event descriptor> <script name>
+  listscripts:
+    description: List all loaded scripts
+    usage: /listscripts
+  listbindings:
+    description: List all bound events
+    usage: /listbindings
+  reloadscripts:
+    description: Reload all script files from disk
+    usage: /reloadscripts
+  unbindscript:
+    description: Unbind one or all script(s) from an event
+    usage: /bindscript <event descriptor> [<script name>]
+    
