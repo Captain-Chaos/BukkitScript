@@ -5,12 +5,12 @@
 package org.pepsoft.bukkit.bukkitscript.context;
 
 import java.util.logging.Level;
-import net.minecraft.server.v1_6_R3.Chunk;
+import net.minecraft.server.v1_7_R1.Chunk;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_6_R3.CraftChunk;
-import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -182,14 +182,14 @@ public class Box {
         int chunkZ2 = corner2.z >> 4;
         for (int chunkX = chunkX1; chunkX <= chunkX2; chunkX++) {
             for (int chunkZ = chunkZ1; chunkZ <= chunkZ2; chunkZ++) {
-                net.minecraft.server.v1_6_R3.World mcWorld = ((CraftWorld) realWorld).getHandle();
+                net.minecraft.server.v1_7_R1.World mcWorld = ((CraftWorld) realWorld).getHandle();
                 for (int y = corner1.y; y <= corner2.y; y++) {
                     for (int dx = 0; dx < 16; dx++) {
                         for (int dz = 0; dz < 16; dz++) {
                             int x = (chunkX << 4) | dx;
                             int z = (chunkZ << 4) | dz;
                             if ((x >= corner1.x) && (x <= corner2.x) && (z >= corner1.z) && (z <= corner2.z)) {
-                                mcWorld.setTypeIdAndData(x, y, z, typeId, data, FLAG_UPDATE | FLAG_MARK_CHUNK_DIRTY | FLAG_ONLY_IF_NOT_STATIC);
+                                mcWorld.setTypeAndData(x, y, z, net.minecraft.server.v1_7_R1.Block.e(typeId), data, FLAG_UPDATE | FLAG_MARK_CHUNK_DIRTY | FLAG_ONLY_IF_NOT_STATIC);
                             }
                         }
                     }
@@ -325,7 +325,7 @@ public class Box {
     private final Location corner1, corner2;
     static final EventListener EVENT_LISTENER = new EventListener();
     private static final int FLAG_UPDATE             = 0x1;
-    private static final int FLAG_MARK_CHUNK_DIRTY             = 0x2;
+    private static final int FLAG_MARK_CHUNK_DIRTY   = 0x2;
     private static final int FLAG_ONLY_IF_NOT_STATIC = 0x4;
 
     public interface BlockVisitor {
