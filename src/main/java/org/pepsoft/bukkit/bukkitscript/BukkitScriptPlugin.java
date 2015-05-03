@@ -4,11 +4,8 @@
  */
 package org.pepsoft.bukkit.bukkitscript;
 
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -17,6 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.pepsoft.bukkit.bukkitscript.context.Context;
 import org.pepsoft.bukkit.bukkitscript.event.EventSpec;
+
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,7 +39,7 @@ public class BukkitScriptPlugin extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if ((sender instanceof Player) && (! ((Player) sender).isOp())) {
+        if ((sender instanceof Player) && (! sender.isOp())) {
             sender.sendMessage(ChatColor.RED + "You don't have permission to execute that command");
             return true;
         }
@@ -89,7 +90,7 @@ public class BukkitScriptPlugin extends JavaPlugin {
             }
             String name = args[0].trim();
             Player player = (Player) sender;
-            List<Block> lineOfSight = player.getLineOfSight(null, 10);
+            List<Block> lineOfSight = player.getLineOfSight((Set<Material>) null, 10);
             for (Block block: lineOfSight) {
                 if (! block.isEmpty()) {
                     World world = player.getWorld();
@@ -179,7 +180,7 @@ public class BukkitScriptPlugin extends JavaPlugin {
                 return true;
             }
             Player player = (Player) sender;
-            List<Block> lineOfSight = player.getLineOfSight(null, 10);
+            List<Block> lineOfSight = player.getLineOfSight((Set<Material>) null, 10);
             for (Block block: lineOfSight) {
                 if (! block.isEmpty()) {
                     World world = player.getWorld();
@@ -284,7 +285,7 @@ public class BukkitScriptPlugin extends JavaPlugin {
         }
         if (identifier == null) {
             Player player = (Player) sender;
-            List<Block> lineOfSight = player.getLineOfSight(null, 10);
+            List<Block> lineOfSight = player.getLineOfSight((Set<Material>) null, 10);
             for (Block block: lineOfSight) {
                 if (! block.isEmpty()) {
                     Location location = new Location(player.getWorld().getName(), block.getX(), block.getY(), block.getZ());

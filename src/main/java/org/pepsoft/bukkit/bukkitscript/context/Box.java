@@ -4,13 +4,15 @@
  */
 package org.pepsoft.bukkit.bukkitscript.context;
 
-import java.util.logging.Level;
-import net.minecraft.server.v1_7_R3.Chunk;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.Chunk;
+import net.minecraft.server.v1_8_R2.IBlockData;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R3.CraftChunk;
-import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.CraftChunk;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,9 +23,11 @@ import org.bukkit.material.MaterialData;
 import org.pepsoft.bukkit.Constants;
 import org.pepsoft.bukkit.bukkitscript.BukkitScriptPlugin;
 import org.pepsoft.bukkit.bukkitscript.Location;
-import org.pepsoft.bukkit.bukkitscript.context.Players.PlayerVisitor;
 import org.pepsoft.bukkit.bukkitscript.context.Players.PlayerProvider;
+import org.pepsoft.bukkit.bukkitscript.context.Players.PlayerVisitor;
 import org.pepsoft.bukkit.bukkitscript.event.Event;
+
+import java.util.logging.Level;
 
 /**
  *
@@ -176,20 +180,21 @@ public class Box {
 
     void set(int typeId, byte data) {
         // Go chunk by chunk to try to be as efficient as possible
+        IBlockData blockData = Block.getById(typeId).fromLegacyData(data);
         int chunkX1 = corner1.x >> 4;
         int chunkX2 = corner2.x >> 4;
         int chunkZ1 = corner1.z >> 4;
         int chunkZ2 = corner2.z >> 4;
         for (int chunkX = chunkX1; chunkX <= chunkX2; chunkX++) {
             for (int chunkZ = chunkZ1; chunkZ <= chunkZ2; chunkZ++) {
-                net.minecraft.server.v1_7_R3.World mcWorld = ((CraftWorld) realWorld).getHandle();
+                net.minecraft.server.v1_8_R2.World mcWorld = ((CraftWorld) realWorld).getHandle();
                 for (int y = corner1.y; y <= corner2.y; y++) {
                     for (int dx = 0; dx < 16; dx++) {
                         for (int dz = 0; dz < 16; dz++) {
                             int x = (chunkX << 4) | dx;
                             int z = (chunkZ << 4) | dz;
                             if ((x >= corner1.x) && (x <= corner2.x) && (z >= corner1.z) && (z <= corner2.z)) {
-                                mcWorld.setTypeAndData(x, y, z, net.minecraft.server.v1_7_R3.Block.e(typeId), data, FLAG_UPDATE | FLAG_MARK_CHUNK_DIRTY | FLAG_ONLY_IF_NOT_STATIC);
+                                mcWorld.setTypeUpdate(new BlockPosition(x, y, z), blockData);
                             }
                         }
                     }
@@ -218,7 +223,7 @@ public class Box {
             for (int chunkZ = chunkZ1; chunkZ <= chunkZ2; chunkZ++) {
                 Chunk chunk = ((CraftChunk) this.realWorld.getChunkAt(chunkX, chunkZ)).getHandle();
                 for (int y = corner1.y; y <= corner2.y; y++) {
-                    if (chunk.i()[(y >> 4)] == null) {
+                    if (chunk.getSections()[(y >> 4)] == null) {
                         if (blockTypeId == 0) {
                             for (int dx = 0; dx < 16; dx++) {
                                 for (int dz = 0; dz < 16; dz++) {
@@ -263,7 +268,7 @@ public class Box {
             for (int chunkZ = chunkZ1; chunkZ <= chunkZ2; chunkZ++) {
                 Chunk chunk = ((CraftChunk) this.realWorld.getChunkAt(chunkX, chunkZ)).getHandle();
                 for (int y = corner1.y; y <= corner2.y; y++) {
-                    if (chunk.i()[(y >> 4)] == null) {
+                    if (chunk.getSections()[(y >> 4)] == null) {
                         if ((blockTypeId == 0) && (blockDataValue == 0)) {
                             for (int dx = 0; dx < 16; dx++) {
                                 for (int dz = 0; dz < 16; dz++) {
@@ -320,13 +325,11 @@ public class Box {
             }
         }
     }
+    
     private final org.bukkit.World realWorld;
     private final OfflinePlayer realPlayer;
     private final Location corner1, corner2;
     static final EventListener EVENT_LISTENER = new EventListener();
-    private static final int FLAG_UPDATE             = 0x1;
-    private static final int FLAG_MARK_CHUNK_DIRTY   = 0x2;
-    private static final int FLAG_ONLY_IF_NOT_STATIC = 0x4;
 
     public interface BlockVisitor {
         boolean visitBlock(org.bukkit.World world, int x, int y, int z, int blockTypeId, int blockData);

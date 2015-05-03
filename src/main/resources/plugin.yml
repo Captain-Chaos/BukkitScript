@@ -1,5 +1,5 @@
 name: BukkitScript
-version: 0.1.4-1.7.9
+version: 0.1.4-1.8.4
 main: org.pepsoft.bukkit.bukkitscript.BukkitScriptPlugin
 commands:
   setname:
