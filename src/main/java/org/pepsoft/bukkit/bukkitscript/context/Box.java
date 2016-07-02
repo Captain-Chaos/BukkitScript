@@ -4,15 +4,15 @@
  */
 package org.pepsoft.bukkit.bukkitscript.context;
 
-import net.minecraft.server.v1_8_R2.Block;
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.Chunk;
-import net.minecraft.server.v1_8_R2.IBlockData;
+import net.minecraft.server.v1_10_R1.Block;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.Chunk;
+import net.minecraft.server.v1_10_R1.IBlockData;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R2.CraftChunk;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -187,7 +187,7 @@ public class Box {
         int chunkZ2 = corner2.z >> 4;
         for (int chunkX = chunkX1; chunkX <= chunkX2; chunkX++) {
             for (int chunkZ = chunkZ1; chunkZ <= chunkZ2; chunkZ++) {
-                net.minecraft.server.v1_8_R2.World mcWorld = ((CraftWorld) realWorld).getHandle();
+                net.minecraft.server.v1_10_R1.World mcWorld = ((CraftWorld) realWorld).getHandle();
                 for (int y = corner1.y; y <= corner2.y; y++) {
                     for (int dx = 0; dx < 16; dx++) {
                         for (int dz = 0; dz < 16; dz++) {

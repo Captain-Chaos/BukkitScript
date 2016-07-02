@@ -4,7 +4,7 @@
 
   <groupId>org.pepsoft</groupId>
   <artifactId>BukkitScript</artifactId>
-  <version>0.1.4-1.8.4</version>
+  <version>0.1.4-1.10.2</version>
   <packaging>jar</packaging>
 
   <name>BukkitScript</name>
@@ -43,12 +43,12 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.8.3-R0.1-SNAPSHOT</version>
+      <version>1.10.2-R0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.8.3-R0.1-SNAPSHOT</version>
+      <version>1.10.2-R0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
