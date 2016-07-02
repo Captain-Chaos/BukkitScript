@@ -4,14 +4,13 @@
  */
 package org.pepsoft.bukkit.bukkitscript.context;
 
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_9_R1.BlockPosition;
+import net.minecraft.server.v1_9_R1.EntityHuman;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.material.Lever;
+import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 
 /**
  *
@@ -99,14 +98,14 @@ public final class BlockHelper {
     private static void interact(org.bukkit.block.Block realBlock, OfflinePlayer realPlayer) {
         org.bukkit.entity.Player onlinePlayer = (realPlayer != null) ? realPlayer.getPlayer() : null;
         EntityHuman entityHuman = (onlinePlayer != null) ? ((CraftPlayer) onlinePlayer).getHandle() : null;
-        // TODO no idea what the last four parameters are for; they are new in MC 1.3.1:
-        net.minecraft.server.v1_8_R2.Block mcBlock = net.minecraft.server.v1_8_R2.Block.getById(realBlock.getTypeId());
+        // TODO no idea what the last six parameters are for; they are new in MC 1.3.1/1.9:
+        net.minecraft.server.v1_9_R1.Block mcBlock = net.minecraft.server.v1_9_R1.Block.getById(realBlock.getTypeId());
         mcBlock.interact(
             ((CraftWorld) realBlock.getWorld()).getHandle(),
             new BlockPosition(realBlock.getX(), realBlock.getY(), realBlock.getZ()),
             mcBlock.fromLegacyData(realBlock.getData()),
             entityHuman,
-            null,
+            null, null, null,
             0.0f, 0.0f, 0.0f);
     }
 }
